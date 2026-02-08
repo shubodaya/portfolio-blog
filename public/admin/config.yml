@@ -29,7 +29,17 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
-      - { label: "Categories", name: "categories", widget: "list", default: ["Experience"] }
-      - { label: "Tags", name: "tags", widget: "list", default: ["networking"] }
+      - { label: "Categories", name: "categories", widget: "list", label_singular: "Category", default: ["Experience"] }
+      - { label: "Tags", name: "tags", widget: "list", label_singular: "Tag", default: ["networking"] }
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        required: false
+        field: { label: "Image", name: "image", widget: "image" }
+      - label: "Videos"
+        name: "videos"
+        widget: "list"
+        required: false
+        field: { label: "Video", name: "video", widget: "file" }
       - { label: "Pinned", name: "pinned", widget: "boolean", required: false }
       - { label: "Body", name: "body", widget: "markdown" }

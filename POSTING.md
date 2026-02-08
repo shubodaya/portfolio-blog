@@ -15,7 +15,10 @@ Write a post:
 2. Log in.
 3. Click Posts -> New Post.
 4. Fill Title, Date, Summary, Categories, Tags, Body.
-5. Click Publish.
+5. Use the Tags field to add multiple tags (click "Add Tag" for each).
+6. Use Images and Videos to upload media for the post.
+7. Click Publish.
+Tip: In the Body editor, use the media button to insert uploads directly into the article.
 
 This creates a Markdown file in src/content/posts and redeploys the site.
 
@@ -32,6 +35,10 @@ categories:
 tags:
   - networking
   - automation
+images:
+  - /uploads/example-image.png
+videos:
+  - /uploads/example-video.mp4
 pinned: false
 ---
 

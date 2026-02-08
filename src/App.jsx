@@ -21,6 +21,17 @@ const parsePost = (raw, filePath) => {
     .replace(/\.md$/, '')
     .replace(/^\d{4}-\d{2}-\d{2}-/, '');
 
+  const images = Array.isArray(data?.images)
+    ? data.images
+        .map((item) => (typeof item === 'string' ? item : item?.image))
+        .filter(Boolean)
+    : [];
+  const videos = Array.isArray(data?.videos)
+    ? data.videos
+        .map((item) => (typeof item === 'string' ? item : item?.video))
+        .filter(Boolean)
+    : [];
+
   return {
     slug,
     title: data?.title || 'Untitled',
@@ -29,6 +40,8 @@ const parsePost = (raw, filePath) => {
     categories: data?.categories || [],
     tags: data?.tags || [],
     pinned: Boolean(data?.pinned),
+    images,
+    videos,
     body
   };
 };
@@ -475,6 +488,27 @@ export default function App() {
                 <span key={tag}>{tag}</span>
               ))}
             </div>
+            {(activePost.images.length > 0 || activePost.videos.length > 0) && (
+              <div className="post-media">
+                {activePost.images.length > 0 && (
+                  <div className="post-media-grid">
+                    {activePost.images.map((src, index) => (
+                      <img key={`${src}-${index}`} src={src} alt={`${activePost.title} media`} />
+                    ))}
+                  </div>
+                )}
+                {activePost.videos.length > 0 && (
+                  <div className="post-media-videos">
+                    {activePost.videos.map((src, index) => (
+                      <video key={`${src}-${index}`} controls>
+                        <source src={src} />
+                        Your browser does not support the video tag.
+                      </video>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
             <div
               className="post-body"
               dangerouslySetInnerHTML={{ __html: marked.parse(activePost.body) }}
