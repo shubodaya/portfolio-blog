@@ -1,6 +1,6 @@
 ---
-title: "About"
-subtitle: "Network Security Engineer"
+title: ""
+subtitle: ""
 ---
 
 ## Summary

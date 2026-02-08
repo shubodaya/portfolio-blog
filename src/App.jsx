@@ -40,8 +40,8 @@ const parsePage = (raw) => {
   const data = frontMatter ? yaml.load(frontMatter) : {};
 
   return {
-    title: data?.title || 'About',
-    subtitle: data?.subtitle || '',
+    title: data?.title ?? '',
+    subtitle: data?.subtitle ?? '',
     body
   };
 };
@@ -446,10 +446,12 @@ export default function App() {
 
         {!isSearching && route === 'about' && (
           <>
-            <div className="page-head">
-              <h2>{aboutPage.title}</h2>
-              {aboutPage.subtitle && <p className="page-sub">{aboutPage.subtitle}</p>}
-            </div>
+            {(aboutPage.title || aboutPage.subtitle) && (
+              <div className="page-head">
+                {aboutPage.title && <h2>{aboutPage.title}</h2>}
+                {aboutPage.subtitle && <p className="page-sub">{aboutPage.subtitle}</p>}
+              </div>
+            )}
             <section className="about-content">
               <div
                 className="post-body"
