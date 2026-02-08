@@ -29,8 +29,20 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Summary", name: "summary", widget: "text" }
-      - { label: "Categories", name: "categories", widget: "list", label_singular: "Category", default: ["Experience"] }
-      - { label: "Tags", name: "tags", widget: "list", label_singular: "Tag", default: ["networking"] }
+      - label: "Categories"
+        name: "categories"
+        widget: "list"
+        label_singular: "Category"
+        hint: "Click Add Category for each item."
+        field: { label: "Category", name: "category", widget: "string" }
+        default: ["Experience"]
+      - label: "Tags"
+        name: "tags"
+        widget: "list"
+        label_singular: "Tag"
+        hint: "Click Add Tag for each item."
+        field: { label: "Tag", name: "tag", widget: "string" }
+        default: ["networking"]
       - label: "Images"
         name: "images"
         widget: "list"

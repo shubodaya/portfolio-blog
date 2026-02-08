@@ -10,6 +10,33 @@ marked.setOptions({
 const rawPosts = import.meta.glob('./content/posts/*.md', { as: 'raw', eager: true });
 const rawAbout = import.meta.glob('./content/about.md', { as: 'raw', eager: true });
 
+const normalizeStringList = (value, key) => {
+  if (Array.isArray(value)) {
+    return value
+      .map((item) => {
+        if (typeof item === 'string') {
+          return item;
+        }
+        if (item && typeof item === 'object') {
+          if (key && item[key]) {
+            return item[key];
+          }
+          const firstKey = Object.keys(item)[0];
+          return firstKey ? item[firstKey] : null;
+        }
+        return null;
+      })
+      .filter(Boolean);
+  }
+  if (typeof value === 'string') {
+    return value
+      .split(',')
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+  return [];
+};
+
 const parsePost = (raw, filePath) => {
   const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   const frontMatter = match ? match[1] : '';
@@ -32,13 +59,16 @@ const parsePost = (raw, filePath) => {
         .filter(Boolean)
     : [];
 
+  const categories = normalizeStringList(data?.categories, 'category');
+  const tags = normalizeStringList(data?.tags, 'tag');
+
   return {
     slug,
     title: data?.title || 'Untitled',
     date: data?.date ? new Date(data.date) : new Date(),
     summary: data?.summary || body.trim().slice(0, 140) + '...',
-    categories: data?.categories || [],
-    tags: data?.tags || [],
+    categories,
+    tags,
     pinned: Boolean(data?.pinned),
     images,
     videos,

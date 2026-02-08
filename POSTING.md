@@ -20,6 +20,9 @@ Write a post:
 7. Click Publish.
 Tip: In the Body editor, use the media button to insert uploads directly into the article.
 
+If the Tags field still shows a single input, you can also type tags separated by commas:
+networking, automation, security
+
 This creates a Markdown file in src/content/posts and redeploys the site.
 
 ## Option B: Manual (GitHub)
