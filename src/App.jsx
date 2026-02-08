@@ -11,7 +11,7 @@ const rawPosts = import.meta.glob('./content/posts/*.md', { as: 'raw', eager: tr
 const rawAbout = import.meta.glob('./content/about.md', { as: 'raw', eager: true });
 
 const parsePost = (raw, filePath) => {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   const frontMatter = match ? match[1] : '';
   const body = match ? match[2] : raw;
   const data = frontMatter ? yaml.load(frontMatter) : {};
@@ -34,7 +34,7 @@ const parsePost = (raw, filePath) => {
 };
 
 const parsePage = (raw) => {
-  const match = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
+  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---\r?\n([\s\S]*)$/);
   const frontMatter = match ? match[1] : '';
   const body = match ? match[2] : raw;
   const data = frontMatter ? yaml.load(frontMatter) : {};

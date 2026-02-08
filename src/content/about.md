@@ -7,14 +7,16 @@ subtitle: "Network Security Engineer"
 3+ years of experience supporting firewalls, routers, and switches with a focus on incident response, documentation, and SLA delivery. Committed to operational excellence and automation that improves network reliability.
 
 ## Expertise
-- Routing and Switching
-- Cisco Network Support
-- LAN/WAN Troubleshooting
-- Firewall Management
-- Network Incident Resolution
-- High Availability
-- Change Management
-- Technical Documentation
+<div class="chip-row">
+  <span>Routing and Switching</span>
+  <span>Cisco Network Support</span>
+  <span>LAN/WAN Troubleshooting</span>
+  <span>Firewall Management</span>
+  <span>Network Incident Resolution</span>
+  <span>High Availability</span>
+  <span>Change Management</span>
+  <span>Technical Documentation</span>
+</div>
 
 ## Education
 - MSc in Cybersecurity (NCSC Certified) - Swansea University (2023 - 2024)
