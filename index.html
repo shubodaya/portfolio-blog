@@ -12,6 +12,18 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet" />
   </head>
   <body>
+    <script>
+      (function () {
+        var hash = window.location.hash || '';
+        if (
+          hash.indexOf('invite_token=') !== -1 ||
+          hash.indexOf('recovery_token=') !== -1 ||
+          hash.indexOf('confirmation_token=') !== -1
+        ) {
+          window.location.replace('/admin/' + hash);
+        }
+      })();
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
