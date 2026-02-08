@@ -7,8 +7,16 @@ marked.setOptions({
   mangle: false
 });
 
-const rawPosts = import.meta.glob('./content/posts/*.md', { as: 'raw', eager: true });
-const rawAbout = import.meta.glob('./content/about.md', { as: 'raw', eager: true });
+const rawPosts = import.meta.glob('./content/posts/*.md', {
+  query: '?raw',
+  import: 'default',
+  eager: true
+});
+const rawAbout = import.meta.glob('./content/about.md', {
+  query: '?raw',
+  import: 'default',
+  eager: true
+});
 
 const normalizeStringList = (value, key) => {
   if (Array.isArray(value)) {
