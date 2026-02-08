@@ -1,0 +1,15 @@
+- type: github
+  icon: "fab fa-github"
+  url: "https://github.com/shubodaya"
+
+- type: linkedin
+  icon: "fab fa-linkedin"
+  url: "https://www.linkedin.com/in/shubodaya"
+
+- type: link
+  icon: "fas fa-globe"
+  url: "https://shubodaya.github.io/portfolio-net/"
+
+- type: email
+  icon: "fas fa-envelope"
+  noblank: true

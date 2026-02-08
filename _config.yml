@@ -1,0 +1,78 @@
+theme: jekyll-theme-chirpy
+
+lang: en
+timezone: Europe/London
+
+title: Shubodaya Kumar
+tagline: Network Engineer
+description: >-
+  Committed to continuous learning, with 3+ years of experience supporting firewalls, routers, and switches, focused on monitoring, documentation, SLA delivery, and automation.
+
+url: "https://shubodaya.github.io"
+baseurl: ""  # change to "/portfolio-blog-website" if using project pages
+
+github:
+  username: shubodaya
+
+social:
+  name: Shubodaya Kumar
+  email: hnshubodaya@gmail.com
+  links:
+    - https://www.linkedin.com/in/shubodaya
+    - https://github.com/shubodaya
+    - https://shubodaya.github.io/portfolio-net/
+
+avatar: /assets/img/avatar.svg
+
+toc: true
+paginate: 10
+
+comments:
+  provider:
+
+collections:
+  tabs:
+    output: true
+    sort_by: order
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      toc: true
+  - scope:
+      path: ""
+      type: tabs
+    values:
+      layout: page
+      permalink: /:title/
+
+jekyll-archives:
+  enabled:
+    - categories
+    - tags
+  layouts:
+    category: category
+    tag: tag
+  permalinks:
+    category: /categories/:name/
+    tag: /tags/:name/
+
+plugins:
+  - jekyll-archives
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-include-cache
+  - jekyll-redirect-from
+
+exclude:
+  - node_modules
+  - vendor
+  - README.md
+  - package.json
+  - package-lock.json
+  - styles.css
+  - script.js
