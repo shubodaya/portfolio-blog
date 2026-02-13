@@ -15,6 +15,4 @@ This is my personal portfolio blog. I use it to publish write-ups on networking,
 This repo deploys to GitHub Pages using `.github/workflows/deploy-pages.yml` on every push to `main`.
 
 ## Content Publishing
-`/admin` with `git-gateway` is Netlify-specific and requires Netlify Identity.
-
-If you host on GitHub Pages, publish posts by committing Markdown files to `src/content/posts` (or through GitHub UI edits/PRs).
+Publish posts by committing Markdown files to `src/content/posts` (locally or through GitHub UI edits/PRs).

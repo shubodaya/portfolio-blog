@@ -26,6 +26,10 @@
   box-sizing: border-box;
 }
 
+html {
+  overflow-y: scroll;
+}
+
 body {
   margin: 0;
   font-family: "Source Sans Pro", "Segoe UI", sans-serif;
@@ -184,6 +188,24 @@ a {
   text-transform: uppercase;
   letter-spacing: 1px;
   color: var(--muted);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.crumb-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.crumb a:hover {
+  color: var(--accent);
+}
+
+.crumb-sep {
+  opacity: 0.8;
 }
 
 .topbar-actions {
@@ -489,6 +511,7 @@ a {
 
 .about-content {
   margin-top: 8px;
+  flex: 1;
 }
 
 .pinned-label {

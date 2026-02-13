@@ -479,26 +479,45 @@ export default function App() {
     [normalizedCategoryQuery]
   );
 
-  const breadcrumb = (() => {
+  const breadcrumbItems = (() => {
+    const items = [{ label: 'Home', href: toAppHref('/') }];
+
     if (route === 'home') {
-      return 'Home';
+      return items;
     }
 
     if (route === 'post' && activePost) {
-      return `Home > ${activePost.title}`;
+      items.push({ label: activePost.title, href: toAppHref(`/post/${activePost.slug}/`) });
+      return items;
     }
 
-    if (route === 'categories' && selectedCategoryNode) {
-      return `Home > Categories > ${selectedCategoryNode.label}`;
+    if (route === 'categories') {
+      items.push({ label: 'Categories', href: toAppHref('/categories/') });
+
+      if (selectedCategoryNode) {
+        selectedCategoryNode.segments.forEach((_, index) => {
+          const branch = selectedCategoryNode.segments.slice(0, index + 1);
+          items.push({
+            label: branch[branch.length - 1],
+            href: toAppHref('/categories/', { category: normalizeCategoryKey(branch) })
+          });
+        });
+      }
+
+      return items;
     }
 
-    const labelMap = {
-      categories: 'Categories',
-      tags: 'Tags',
-      archives: 'Archives',
-      about: 'About'
+    const routeItems = {
+      tags: { label: 'Tags', href: toAppHref('/tags/') },
+      archives: { label: 'Archives', href: toAppHref('/archives/') },
+      about: { label: 'About', href: toAppHref('/about/') }
     };
-    return `Home > ${labelMap[route] || 'Home'}`;
+
+    if (routeItems[route]) {
+      items.push(routeItems[route]);
+    }
+
+    return items;
   })();
 
   useEffect(() => {
@@ -625,7 +644,14 @@ export default function App() {
 
       <main className="content">
         <div className="topbar">
-          <div className="crumb">{breadcrumb}</div>
+          <nav className="crumb" aria-label="Breadcrumb">
+            {breadcrumbItems.map((item, index) => (
+              <span key={`${item.label}-${index}`} className="crumb-item">
+                {index > 0 && <span className="crumb-sep">{'>'}</span>}
+                <a href={item.href}>{item.label}</a>
+              </span>
+            ))}
+          </nav>
           <div className="topbar-actions">
             <div className="search">
               <i className="fas fa-search"></i>
@@ -885,7 +911,7 @@ export default function App() {
         )}
 
         <footer className="site-footer">
-          <p>Copyright 2026 Shubodaya Kumar. Some rights reserved.</p>
+          <p>Copyright 2026 Shubodaya Kumar.</p>
           <p>It always seems impossible until it is done. - Nelson Mandela</p>
         </footer>
       </main>
