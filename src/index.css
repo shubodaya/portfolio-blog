@@ -165,7 +165,10 @@ a {
   background: var(--surface);
   border-left: 1px solid var(--border);
   border-right: 1px solid var(--border);
-  padding: 24px 48px 64px;
+  padding: 24px 48px 24px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .topbar {
@@ -649,11 +652,16 @@ a {
 }
 
 .site-footer {
-  margin-top: 40px;
-  font-size: 0.85rem;
+  margin-top: auto;
+  font-size: 0.78rem;
   color: var(--muted);
   border-top: 1px solid var(--border);
-  padding-top: 18px;
+  padding-top: 10px;
+  line-height: 1.35;
+}
+
+.site-footer p {
+  margin: 4px 0;
 }
 
 .panel {
@@ -748,7 +756,7 @@ a {
 
 @media (max-width: 720px) {
   .content {
-    padding: 24px 20px 48px;
+    padding: 24px 20px 24px;
   }
 
   .sidebar {
