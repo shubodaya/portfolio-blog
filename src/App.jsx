@@ -19,6 +19,67 @@ const rawAbout = import.meta.glob('./content/about.md', {
 });
 
 const CATEGORY_DELIMITER_REGEX = /\s*>\s*/;
+const BASE_PATH = import.meta.env.BASE_URL || '/';
+const NORMALIZED_BASE_PATH = BASE_PATH.endsWith('/') ? BASE_PATH : `${BASE_PATH}/`;
+const BASE_PATH_NO_TRAILING_SLASH =
+  NORMALIZED_BASE_PATH === '/' ? '' : NORMALIZED_BASE_PATH.replace(/\/$/, '');
+
+const toAppHref = (pathname = '/', params = {}) => {
+  const normalizedPath = pathname.startsWith('/') ? pathname.slice(1) : pathname;
+  const entries = Object.entries(params).filter(([, value]) => value !== '' && value != null);
+  const query = entries.length > 0 ? `?${new URLSearchParams(entries).toString()}` : '';
+  return `${NORMALIZED_BASE_PATH}${normalizedPath}${query}`;
+};
+
+const stripBasePath = (pathname) => {
+  if (!pathname) {
+    return '/';
+  }
+  if (!BASE_PATH_NO_TRAILING_SLASH) {
+    return pathname;
+  }
+  if (!pathname.startsWith(BASE_PATH_NO_TRAILING_SLASH)) {
+    return pathname;
+  }
+  const stripped = pathname.slice(BASE_PATH_NO_TRAILING_SLASH.length);
+  if (!stripped) {
+    return '/';
+  }
+  return stripped.startsWith('/') ? stripped : `/${stripped}`;
+};
+
+const toAssetHref = (source) => {
+  if (typeof source !== 'string' || source.length === 0) {
+    return source;
+  }
+  if (
+    source.startsWith('http://') ||
+    source.startsWith('https://') ||
+    source.startsWith('//') ||
+    source.startsWith('data:') ||
+    source.startsWith('blob:')
+  ) {
+    return source;
+  }
+  if (!source.startsWith('/')) {
+    return source;
+  }
+  if (BASE_PATH_NO_TRAILING_SLASH && source.startsWith(`${BASE_PATH_NO_TRAILING_SLASH}/`)) {
+    return source;
+  }
+  return `${NORMALIZED_BASE_PATH}${source.slice(1)}`;
+};
+
+const rewriteRootRelativeUrls = (html) => {
+  if (typeof html !== 'string' || html.length === 0) {
+    return html;
+  }
+
+  return html.replace(/(src|href)=["']\/([^"']+)["']/gi, (fullMatch, attribute, path) => {
+    const resolved = toAssetHref(`/${path}`);
+    return `${attribute}="${resolved}"`;
+  });
+};
 
 const normalizeStringList = (value, key) => {
   if (Array.isArray(value)) {
@@ -324,7 +385,7 @@ function PostCard({ post }) {
         </div>
       )}
       <h3>
-        <a href={`/post/${post.slug}/`}>{post.title}</a>
+        <a href={toAppHref(`/post/${post.slug}/`)}>{post.title}</a>
       </h3>
       <p>{post.summary}</p>
       <div className="post-meta">
@@ -334,7 +395,7 @@ function PostCard({ post }) {
           <span>
             <a
               className="meta-category-link"
-              href={`/categories/?category=${encodeURIComponent(post.categoryKeys[0])}`}
+              href={toAppHref('/categories/', { category: post.categoryKeys[0] })}
             >
               {post.categoryLabels[0]}
             </a>
@@ -360,7 +421,7 @@ export default function App() {
   });
 
   const params = new URLSearchParams(window.location.search);
-  const path = window.location.pathname || '/';
+  const path = stripBasePath(window.location.pathname || '/');
   const normalizedPath = path.endsWith('/') ? path : `${path}/`;
   const route =
     normalizedPath === '/'
@@ -454,13 +515,11 @@ export default function App() {
     setSelectedCategory(nextCategory);
 
     if (route === 'categories') {
-      const url = new URL(window.location.href);
-      if (nextCategory) {
-        url.searchParams.set('category', nextCategory);
-      } else {
-        url.searchParams.delete('category');
-      }
-      window.history.replaceState({}, '', `${url.pathname}${url.search}`);
+      window.history.replaceState(
+        {},
+        '',
+        toAppHref('/categories/', nextCategory ? { category: nextCategory } : {})
+      );
     }
   };
 
@@ -505,7 +564,7 @@ export default function App() {
           <div className="avatar">
             {!avatarError ? (
               <img
-                src="/avatar.png"
+                src={toAssetHref('/avatar.png')}
                 alt="Shubodaya Kumar"
                 onError={() => setAvatarError(true)}
               />
@@ -518,23 +577,23 @@ export default function App() {
         </div>
 
         <nav className="menu">
-          <a className={activeNav === 'home' ? 'active' : ''} href="/">
+          <a className={activeNav === 'home' ? 'active' : ''} href={toAppHref('/')}>
             <i className="fas fa-house"></i>
             Home
           </a>
-          <a className={activeNav === 'categories' ? 'active' : ''} href="/categories/">
+          <a className={activeNav === 'categories' ? 'active' : ''} href={toAppHref('/categories/')}>
             <i className="fas fa-stream"></i>
             Categories
           </a>
-          <a className={activeNav === 'tags' ? 'active' : ''} href="/tags/">
+          <a className={activeNav === 'tags' ? 'active' : ''} href={toAppHref('/tags/')}>
             <i className="fas fa-tags"></i>
             Tags
           </a>
-          <a className={activeNav === 'archives' ? 'active' : ''} href="/archives/">
+          <a className={activeNav === 'archives' ? 'active' : ''} href={toAppHref('/archives/')}>
             <i className="fas fa-archive"></i>
             Archives
           </a>
-          <a className={activeNav === 'about' ? 'active' : ''} href="/about/">
+          <a className={activeNav === 'about' ? 'active' : ''} href={toAppHref('/about/')}>
             <i className="fas fa-user"></i>
             About
           </a>
@@ -729,7 +788,7 @@ export default function App() {
                     {list.map((post) => (
                       <div key={post.slug} className="archive-item">
                         <span className="archive-date">{formatDate(post.date)}</span>
-                        <a href={`/post/${post.slug}/`}>{post.title}</a>
+                        <a href={toAppHref(`/post/${post.slug}/`)}>{post.title}</a>
                       </div>
                     ))}
                   </div>
@@ -750,7 +809,7 @@ export default function App() {
             <section className="about-content">
               <div
                 className="post-body"
-                dangerouslySetInnerHTML={{ __html: marked.parse(aboutPage.body) }}
+                dangerouslySetInnerHTML={{ __html: rewriteRootRelativeUrls(marked.parse(aboutPage.body)) }}
               />
             </section>
           </>
@@ -758,7 +817,7 @@ export default function App() {
 
         {!isSearching && route === 'post' && activePost && (
           <article className="post-view">
-            <a className="back-link" href="/">
+            <a className="back-link" href={toAppHref('/')}>
               Back to Home
             </a>
             <h1>{activePost.title}</h1>
@@ -769,7 +828,7 @@ export default function App() {
                 <span>
                   <a
                     className="meta-category-link"
-                    href={`/categories/?category=${encodeURIComponent(activePost.categoryKeys[0])}`}
+                    href={toAppHref('/categories/', { category: activePost.categoryKeys[0] })}
                   >
                     {activePost.categoryLabels[0]}
                   </a>
@@ -781,7 +840,7 @@ export default function App() {
                 {activePost.categoryLabels.map((label, index) => (
                   <a
                     key={`${activePost.categoryKeys[index]}-${index}`}
-                    href={`/categories/?category=${encodeURIComponent(activePost.categoryKeys[index])}`}
+                    href={toAppHref('/categories/', { category: activePost.categoryKeys[index] })}
                   >
                     {label}
                   </a>
@@ -798,7 +857,11 @@ export default function App() {
                 {activePost.images.length > 0 && (
                   <div className="post-media-grid">
                     {activePost.images.map((src, index) => (
-                      <img key={`${src}-${index}`} src={src} alt={`${activePost.title} media`} />
+                      <img
+                        key={`${src}-${index}`}
+                        src={toAssetHref(src)}
+                        alt={`${activePost.title} media`}
+                      />
                     ))}
                   </div>
                 )}
@@ -806,7 +869,7 @@ export default function App() {
                   <div className="post-media-videos">
                     {activePost.videos.map((src, index) => (
                       <video key={`${src}-${index}`} controls>
-                        <source src={src} />
+                        <source src={toAssetHref(src)} />
                         Your browser does not support the video tag.
                       </video>
                     ))}
@@ -816,7 +879,7 @@ export default function App() {
             )}
             <div
               className="post-body"
-              dangerouslySetInnerHTML={{ __html: marked.parse(activePost.body) }}
+              dangerouslySetInnerHTML={{ __html: rewriteRootRelativeUrls(marked.parse(activePost.body)) }}
             />
           </article>
         )}
@@ -833,7 +896,7 @@ export default function App() {
           <ul>
             {posts.slice(0, 4).map((post) => (
               <li key={post.slug}>
-                <a href={`/post/${post.slug}/`}>{post.title}</a>
+                <a href={toAppHref(`/post/${post.slug}/`)}>{post.title}</a>
               </li>
             ))}
           </ul>
@@ -843,7 +906,7 @@ export default function App() {
           <h4>Trending Tags</h4>
           <div className="tag-cloud">
             {trendingTags.map((item) => (
-              <a key={item} href="/tags/">
+              <a key={item} href={toAppHref('/tags/')}>
                 {item}
               </a>
             ))}

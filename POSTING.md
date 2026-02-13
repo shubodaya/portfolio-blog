@@ -1,8 +1,35 @@
-﻿# How to Write a Blog Post
+# How to Write a Blog Post
 
-This site supports two ways to publish posts. The recommended option is the private admin login (Netlify + Decap CMS).
+This site supports two ways to publish posts.
+If hosted on GitHub Pages, use Option A (GitHub/manual).
+Option B (`/admin`) works only when hosted on Netlify with Identity + Git Gateway.
 
-## Option A (Recommended): Private /admin Login (Netlify)
+## Option A (Recommended for GitHub Pages): Manual (GitHub)
+
+Create a new file in `src/content/posts` with this format:
+
+---
+title: "My New Post"
+date: 2026-02-05T10:00:00+00:00
+summary: "Short summary here."
+categories:
+  - Projects > Cloud > Azure
+  - Projects > Automation
+tags:
+  - networking
+  - automation
+images:
+  - /uploads/example-image.png
+videos:
+  - /uploads/example-video.mp4
+pinned: false
+---
+
+Write your post content here.
+
+Commit and push to deploy.
+
+## Option B: Private /admin Login (Netlify Only)
 
 One-time setup on Netlify:
 1. Deploy this repo on Netlify.
@@ -25,30 +52,7 @@ Tip: In the Body editor, use the media button to insert uploads directly into th
 If the Tags field still shows a single input, you can also type tags separated by commas:
 networking, automation, security
 
-This creates a Markdown file in src/content/posts and redeploys the site.
-
-## Option B: Manual (GitHub)
-
-Create a new file in src/content/posts with this format:
-
----
-title: "My New Post"
-date: 2026-02-05T10:00:00+00:00
-summary: "Short summary here."
-categories:
-  - Projects > Cloud > Azure
-  - Projects > Automation
-tags:
-  - networking
-  - automation
-images:
-  - /uploads/example-image.png
-videos:
-  - /uploads/example-video.mp4
-pinned: false
----
-
-Write your post content here.
+This creates a Markdown file in `src/content/posts` and redeploys the site.
 
 ## Category Branching Guide
 
@@ -58,5 +62,3 @@ Write your post content here.
   - see where a category belongs,
   - filter by a whole branch on the Categories page,
   - find posts by category path in search.
-
-Commit and push to deploy.
