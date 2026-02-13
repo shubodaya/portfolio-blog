@@ -32,10 +32,10 @@ collections:
       - label: "Categories"
         name: "categories"
         widget: "list"
-        label_singular: "Category"
-        hint: "Click Add Category for each item."
-        field: { label: "Category", name: "category", widget: "string" }
-        default: ["Experience"]
+        label_singular: "Category Path"
+        hint: "Use category branches with >, for example: Experience > Networking > Firewalls"
+        field: { label: "Category Path", name: "category", widget: "string" }
+        default: ["Experience > Networking"]
       - label: "Tags"
         name: "tags"
         widget: "list"

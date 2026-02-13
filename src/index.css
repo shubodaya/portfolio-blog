@@ -295,28 +295,107 @@ a {
   color: #adb5bd;
 }
 
-.category-grid {
-  display: grid;
-  gap: 16px;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.meta-category-link {
+  color: var(--accent);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0;
 }
 
-.category-card {
+.category-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.category-browser {
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 16px 18px;
+  padding: 14px;
   background: var(--surface);
   box-shadow: var(--shadow);
+}
+
+.category-filter {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 6px 12px;
+  color: var(--muted);
+}
+
+.category-filter input {
+  border: none;
+  background: transparent;
+  outline: none;
+  width: 100%;
+  font-family: inherit;
+  color: var(--text);
+}
+
+.category-tree {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.category-tree[data-depth]:not([data-depth="0"]) {
+  margin-left: 12px;
+  padding-left: 12px;
+  border-left: 1px dashed var(--border);
+}
+
+.category-node {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: var(--surface);
+  font-family: inherit;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 3px 10px;
+}
+
+.category-node-main {
   font-weight: 600;
+}
+
+.category-node-parent {
+  grid-column: 1 / 2;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--muted);
 }
 
 .category-count {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--muted);
   font-weight: 600;
+}
+
+.category-node.active,
+.category-node:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.category-results h3 {
+  margin: 0 0 6px;
+  font-family: "Lato", sans-serif;
+}
+
+.category-results .post-list {
+  margin-top: 16px;
 }
 
 .tag-list {
@@ -479,6 +558,22 @@ a {
 .post-view h1 {
   font-family: "Lato", sans-serif;
   margin: 0 0 12px;
+}
+
+.post-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 12px 0 8px;
+}
+
+.post-categories a {
+  font-size: 0.72rem;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--accent);
 }
 
 .post-tags {
@@ -644,6 +739,10 @@ a {
 
   .search {
     flex: 1;
+  }
+
+  .category-layout {
+    grid-template-columns: 1fr;
   }
 }
 

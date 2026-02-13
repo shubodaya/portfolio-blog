@@ -15,6 +15,8 @@ Write a post:
 2. Log in.
 3. Click Posts -> New Post.
 4. Fill Title, Date, Summary, Categories, Tags, Body.
+   For Categories, use branch format with `>` like:
+   `Experience > Networking > Firewalls`
 5. Use the Tags field to add multiple tags (click "Add Tag" for each).
 6. Use Images and Videos to upload media for the post.
 7. Click Publish.
@@ -34,7 +36,8 @@ title: "My New Post"
 date: 2026-02-05T10:00:00+00:00
 summary: "Short summary here."
 categories:
-  - Projects
+  - Projects > Cloud > Azure
+  - Projects > Automation
 tags:
   - networking
   - automation
@@ -46,5 +49,14 @@ pinned: false
 ---
 
 Write your post content here.
+
+## Category Branching Guide
+
+- Use `Parent > Child > Leaf` to build hierarchy.
+- Example: `Experience > Network Security > SonicWall`
+- On the site, this lets you:
+  - see where a category belongs,
+  - filter by a whole branch on the Categories page,
+  - find posts by category path in search.
 
 Commit and push to deploy.
