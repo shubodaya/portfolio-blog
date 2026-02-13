@@ -119,6 +119,4 @@ Contributions, issues, and suggestions are welcome.
 ## 📜 License
 
 - Licensed under the MIT License. See the LICENSE file for details.
----
-The full codebase and documentation are available on GitHub:  
-[https://github.com/shubodaya/network-intrusion-detection-ml](https://github.com/shubodaya/network-intrusion-detection-ml)
+
